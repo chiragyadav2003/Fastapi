@@ -61,8 +61,8 @@ app.get('/search', async (c) => {
 
         // o/p is string array of matched results
         return c.json({
+            results: res,
             duration: end - start,
-            results: res
         }, { status: 200 });
 
     } catch (error) {
