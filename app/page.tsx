@@ -15,7 +15,7 @@ export default function Home() {
       if (!input) return setSearchResults(undefined);
 
       //backend req to get result
-      const res = await fetch(`/api/search?q=${input}`);
+      const res = await fetch(`https://fastapi.codechirag123.workers.dev/api/search?q=${input}`);
       const data = await res.json() as { results: string[], duration: number };
       setSearchResults(data);
     }
