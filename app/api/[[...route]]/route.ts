@@ -67,7 +67,7 @@ app.get('/search', async (c) => {
 
     } catch (error) {
         console.error(error);
-        return c.json({ results: [], message: "Something went wrong" }, { status: 500 });
+        return c.json({ results: [], message: "Something went wrong." }, { status: 500 });
     }
 });
 
