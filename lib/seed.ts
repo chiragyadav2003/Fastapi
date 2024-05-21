@@ -1,8 +1,9 @@
 import { Redis } from '@upstash/redis'
 
+
 const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_URL,
-    token: process.env.UPSTASH_REDIS_TOKEN,
+    url: process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
 })
 
 const countryList = [
@@ -256,3 +257,34 @@ const countryList = [
     "Zimbabwe",
     "Åland Islands"
 ];
+
+// how to make searching in redis e.g Germany
+// G
+// GE
+// GER
+// .....
+// GERMANY*
+// so no matter what we type it will always point to GERMANY
+countryList.forEach((country) => {
+    const term = country.toUpperCase();
+
+    const terms: { score: 0, member: string }[] = [];
+
+    //put all the combination of a country in the array
+    // G  GE  GER  GERM  ... GERMANY
+    for (let i = 0; i <= term.length; i++) {
+        //push substring in terms array
+        terms.push({ score: 0, member: term.substring(0, i) });
+        const element = term[i];
+    }
+    //now push * e.g-GERMANY* thing in array 
+    terms.push({ score: 0, member: term + '*' });
+
+    //populating data  in db
+    const populateDb = async () => {
+        // @ts-expect-error
+        await redis.zadd("terms", ...terms)
+    }
+    populateDb();
+
+})
