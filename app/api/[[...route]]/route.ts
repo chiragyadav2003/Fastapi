@@ -22,7 +22,8 @@ app.get('/search', (c) => {
         token: UPSTASH_REDIS_REST_TOKEN!
     })
 
-
+    // accessing search params from query
+    const query = c.req.query('q')
 
     return c.json({
         message: 'Hello Next.js!',
